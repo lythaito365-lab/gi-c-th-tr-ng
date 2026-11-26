@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T09:48:29+07:00",
+ "updated": "2026-11-26T10:51:51+07:00",
  "demo": false,
  "errors": [
   "sjc: HTTPError: HTTP Error 403: Forbidden"
@@ -13,11 +13,12 @@
    "unit": "đ",
    "price": 3934.56,
    "source": "Vietcombank",
-   "asof": "2026-11-26T09:48+07:00",
+   "asof": "2026-11-26T10:51+07:00",
    "stale": false,
-   "change": null,
-   "change_pct": null,
+   "change": 0.0,
+   "change_pct": 0.0,
    "spark": [
+    3934.56,
     3934.56
    ]
   },
@@ -29,11 +30,12 @@
    "unit": "đ",
    "price": 29080.92,
    "source": "Vietcombank",
-   "asof": "2026-11-26T09:48+07:00",
+   "asof": "2026-11-26T10:51+07:00",
    "stale": false,
-   "change": null,
-   "change_pct": null,
+   "change": 0.0,
+   "change_pct": 0.0,
    "spark": [
+    29080.92,
     29080.92
    ]
   },
@@ -45,11 +47,12 @@
    "unit": "đ",
    "price": 167.31,
    "source": "Vietcombank",
-   "asof": "2026-11-26T09:48+07:00",
+   "asof": "2026-11-26T10:51+07:00",
    "stale": false,
-   "change": null,
-   "change_pct": null,
+   "change": 0.0,
+   "change_pct": 0.0,
    "spark": [
+    167.31,
     167.31
    ]
   },
@@ -61,11 +64,12 @@
    "unit": "đ",
    "price": 26040.0,
    "source": "Vietcombank",
-   "asof": "2026-11-26T09:48+07:00",
+   "asof": "2026-11-26T10:51+07:00",
    "stale": false,
-   "change": null,
-   "change_pct": null,
+   "change": 0.0,
+   "change_pct": 0.0,
    "spark": [
+    26040.0,
     26040.0
    ]
   },
@@ -77,11 +81,12 @@
    "unit": "đ",
    "price": 25765.94,
    "source": "open.er-api.com",
-   "asof": "2026-11-26T09:48+07:00",
+   "asof": "2026-11-26T10:51+07:00",
    "stale": false,
-   "change": null,
-   "change_pct": null,
+   "change": 0.0,
+   "change_pct": 0.0,
    "spark": [
+    25765.94,
     25765.94
    ]
   }
