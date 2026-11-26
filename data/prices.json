@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T15:43:17+07:00",
+ "updated": "2026-11-26T16:59:36+07:00",
  "demo": false,
  "errors": [
   "sjc: HTTPError: HTTP Error 403: Forbidden"
@@ -11,19 +11,20 @@
    "cat": "ngoai-te",
    "region": "all",
    "unit": "đ",
-   "price": 3934.56,
+   "price": 3939.08,
    "source": "Vietcombank",
-   "asof": "2026-11-26T15:43+07:00",
+   "asof": "2026-11-26T16:59+07:00",
    "stale": false,
-   "change": 0.0,
-   "change_pct": 0.0,
+   "change": 4.52,
+   "change_pct": 0.115,
    "spark": [
     3934.56,
     3934.56,
     3934.56,
     3934.56,
     3934.56,
-    3934.56
+    3934.56,
+    3939.08
    ]
   },
   {
@@ -32,19 +33,20 @@
    "cat": "ngoai-te",
    "region": "all",
    "unit": "đ",
-   "price": 29080.92,
+   "price": 29078.98,
    "source": "Vietcombank",
-   "asof": "2026-11-26T15:43+07:00",
+   "asof": "2026-11-26T16:59+07:00",
    "stale": false,
-   "change": 0.0,
-   "change_pct": 0.0,
+   "change": -1.94,
+   "change_pct": -0.007,
    "spark": [
     29080.92,
     29080.92,
     29080.92,
     29080.92,
     29080.92,
-    29080.92
+    29080.92,
+    29078.98
    ]
   },
   {
@@ -53,19 +55,20 @@
    "cat": "ngoai-te",
    "region": "all",
    "unit": "đ",
-   "price": 167.31,
+   "price": 166.95,
    "source": "Vietcombank",
-   "asof": "2026-11-26T15:43+07:00",
+   "asof": "2026-11-26T16:59+07:00",
    "stale": false,
-   "change": 0.0,
-   "change_pct": 0.0,
+   "change": -0.36,
+   "change_pct": -0.215,
    "spark": [
     167.31,
     167.31,
     167.31,
     167.31,
     167.31,
-    167.31
+    167.31,
+    166.95
    ]
   },
   {
@@ -74,19 +77,20 @@
    "cat": "ngoai-te",
    "region": "all",
    "unit": "đ",
-   "price": 26040.0,
+   "price": 26010.0,
    "source": "Vietcombank",
-   "asof": "2026-11-26T15:43+07:00",
+   "asof": "2026-11-26T16:59+07:00",
    "stale": false,
-   "change": 0.0,
-   "change_pct": 0.0,
+   "change": -30.0,
+   "change_pct": -0.115,
    "spark": [
     26040.0,
     26040.0,
     26040.0,
     26040.0,
     26040.0,
-    26040.0
+    26040.0,
+    26010.0
    ]
   },
   {
@@ -97,11 +101,12 @@
    "unit": "đ",
    "price": 25765.94,
    "source": "open.er-api.com",
-   "asof": "2026-11-26T15:43+07:00",
+   "asof": "2026-11-26T16:59+07:00",
    "stale": false,
    "change": 0.0,
    "change_pct": 0.0,
    "spark": [
+    25765.94,
     25765.94,
     25765.94,
     25765.94,
