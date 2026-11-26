@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bảng giá hôm nay</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F5F3;--panel:#fff;--ink:#12211C;--mute:#5B6B65;--line:#D6DEDA;--up:#0B7F48;--down:#C93A2E;--flat:#8F7208;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0D1613;--panel:#14211C;--ink:#E8F1ED;--mute:#93A59D;--line:#24362F;--up:#3DD68C;--down:#FF6B5E;--flat:#E3B93C;color-scheme:dark}}
+body.tv{--bg:#0A1210;--panel:#101C18;--ink:#F1F7F4;--mute:#8FA39A;--line:#22352E;--up:#3DD68C;--down:#FF6B5E;--flat:#E3B93C}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 "Be Vietnam Pro",system-ui,sans-serif;padding:max(16px,env(safe-area-inset-top)) 16px 40px}
+main{max-width:920px;margin:auto}
+h1{font-size:clamp(28px,6vw,44px);font-weight:800;letter-spacing:-.02em;margin:8px 0 4px}
+.meta{color:var(--mute);font-size:14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:2}
+button,select{font:inherit;font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+:focus-visible{outline:2px solid var(--flat);outline-offset:2px}
+.note{border-left:4px solid var(--flat);background:var(--panel);padding:10px 14px;margin:10px 0;font-size:14px}
+h2{font-size:18px;font-weight:600;margin:26px 0 4px}
+.row{display:grid;grid-template-columns:1fr auto 92px;gap:0 16px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.name{font-weight:600}.sub{color:var(--mute);font-size:13px}.stale{color:var(--flat)}
+.price{font-size:22px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+.price small{font-size:12px;font-weight:400;color:var(--mute);margin-left:5px}
+.side{text-align:right}.chg{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.up{color:var(--up)}.down{color:var(--down)}.flat{color:var(--flat)}
+.sp{flex:1}
+body.tv .ctl{display:none}
+body.tv main{max-width:1280px}
+body.tv #list{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+body.tv .price{font-size:30px}body.tv .name{font-size:19px}
+@media(max-width:600px){.row{grid-template-columns:1fr auto}.side{grid-column:1/3;display:flex;justify-content:space-between;align-items:center}}
+</style>
+</head>
+<body>
+<main>
+<h1>Bảng giá hôm nay</h1>
+<div class="meta" id="meta">Đang tải giá…</div>
+<div class="bar">
+  <select class="ctl" id="reg" aria-label="Khu vực"></select>
+  <span class="ctl" id="cats"></span>
+  <span class="sp"></span>
+  <button class="ctl" id="copy">Chép lời đọc</button>
+  <button id="tv" aria-pressed="false">Chế độ bản tin</button>
+</div>
+<div id="notes"></div>
+<div id="list"></div>
+</main>
+<script>
+const DATA_URL='data/prices.json';
+const CATS=[['vang','Vàng'],['ngoai-te','Ngoại tệ'],['nong-san','Nông sản'],['thuc-pham','Thực phẩm thiết yếu'],['nhien-lieu','Nhiên liệu']];
+const REG={hn:'Hà Nội',hcm:'TP.HCM',dn:'Đà Nẵng',ct:'Cần Thơ',dl:'Đắk Lắk'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=(n,d=0)=>n.toLocaleString('vi-VN',{maximumFractionDigits:n<100?2:d});
+let D,region='*',cat='*';
+
+async function load(){
+  try{
+    const r=await fetch(DATA_URL+'?t='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    D=await r.json();render();
+  }catch(e){
+    $('#list').innerHTML='<p class="note">Không tải được dữ liệu giá ('+esc(e.message)+'). Hãy mở trang qua địa chỉ GitHub Pages thay vì mở file trực tiếp trên máy.</p>';
+  }
+}
+const visible=()=>D.items.filter(i=>(cat==='*'||i.cat===cat)&&(region==='*'||i.region==='all'||i.region===region));
+function spark(a,c){
+  if(!a||a.length<2)return'';
+  const mn=Math.min(...a),mx=Math.max(...a),w=84,h=24;
+  const p=a.map((v,i)=>(i/(a.length-1)*w).toFixed(1)+','+(h-2-(mx===mn?.5:(v-mn)/(mx-mn))*(h-4)).toFixed(1));
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${p.join(' ')}" fill="none" stroke="var(--${c})" stroke-width="1.8"/></svg>`;
+}
+function ago(t){
+  const m=Math.round((Date.now()-new Date(t))/60000);
+  return m<1?'vừa xong':m<60?m+' phút trước':m<1440?Math.round(m/60)+' giờ trước':Math.round(m/1440)+' ngày trước';
+}
+function render(){
+  $('#meta').textContent='Cập nhật '+new Date(D.updated).toLocaleString('vi-VN')+' ('+ago(D.updated)+')';
+  let n='';
+  if(D.demo)n+='<p class="note">Đây là dữ liệu mẫu. Chạy workflow “update-prices” trên GitHub để thay bằng giá thật.</p>';
+  if(D.errors&&D.errors.length)n+='<p class="note">'+D.errors.length+' nguồn tự động đang lỗi. Các mục đánh dấu “giá cũ” chưa được làm mới.</p>';
+  $('#notes').innerHTML=n;
+  const regs=[...new Set(D.items.map(i=>i.region).filter(r=>r!=='all'))];
+  $('#reg').innerHTML='<option value="*">Tất cả khu vực</option>'+regs.map(r=>`<option value="${esc(r)}"${r===region?' selected':''}>${esc(REG[r]||r)}</option>`).join('');
+  $('#cats').innerHTML=[['*','Tất cả'],...CATS].map(([k,v])=>`<button data-c="${k}" aria-pressed="${k===cat}">${v}</button>`).join(' ');
+  const vis=visible();
+  $('#list').innerHTML=CATS.map(([k,label])=>{
+    const rows=vis.filter(i=>i.cat===k);
+    if(!rows.length)return'';
+    return `<section><h2>${label}</h2>`+rows.map(row).join('')+'</section>';
+  }).join('')||'<p class="note">Chưa có mục giá nào cho lựa chọn này.</p>';
+}
+function row(i){
+  const p=i.change_pct,c=p==null||p===0?'flat':p>0?'up':'down';
+  const t=p==null?'chưa có so sánh':(p>0?'▲ ':p<0?'▼ ':'')+fmt(Math.abs(p),2)+'%';
+  const sub=[i.region!=='all'?(REG[i.region]||i.region):'',i.source,i.stale?'giá cũ':''].filter(Boolean).map((s,k,a)=>s==='giá cũ'?`<span class="stale">${s}</span>`:esc(s)).join(', ');
+  return `<div class="row"><div><div class="name">${esc(i.name)}</div><div class="sub">${sub}</div></div>
+  <div class="price">${fmt(i.price)}<small>${esc(i.unit)}</small></div>
+  <div class="side">${spark(i.spark,c)}<div class="chg ${c}">${t}</div></div></div>`;
+}
+$('#reg').onchange=e=>{region=e.target.value;render()};
+$('#cats').onclick=e=>{const b=e.target.closest('button');if(b){cat=b.dataset.c;render()}};
+$('#tv').onclick=()=>setTv(!document.body.classList.contains('tv'));
+function setTv(on){document.body.classList.toggle('tv',on);$('#tv').setAttribute('aria-pressed',on);$('#tv').textContent=on?'Thoát chế độ bản tin':'Chế độ bản tin'}
+document.onkeydown=e=>{if(e.key==='Escape')setTv(false)};
+$('#copy').onclick=async()=>{
+  const L=visible().map(i=>{const p=i.change_pct;
+    const t=p==null?'':p>0?', tăng '+fmt(p,2)+'%':p<0?', giảm '+fmt(-p,2)+'%':', không đổi';
+    return `${i.name}${i.region!=='all'?' tại '+(REG[i.region]||i.region):''}: ${fmt(i.price)} ${i.unit}${t}.`});
+  try{await navigator.clipboard.writeText(L.join('\n'));$('#copy').textContent='Đã chép'}catch(_){$('#copy').textContent='Không chép được'}
+  setTimeout(()=>$('#copy').textContent='Chép lời đọc',1800);
+};
+if(new URLSearchParams(location.search).get('tv')==='1')setTv(true);
+load();setInterval(load,5*60*1000);
+</script>
+</body>
+</html>

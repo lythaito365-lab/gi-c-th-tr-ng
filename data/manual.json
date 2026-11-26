@@ -1,0 +1,13 @@
+{
+  "_ghi_chu": "Điền price và asof (YYYY-MM-DD) cho mỗi dòng cần hiện. Dòng price=null bị bỏ qua. region: all, hn, hcm, dn, ct, dl. cat: nong-san, thuc-pham, nhien-lieu, vang, ngoai-te.",
+  "items": [
+    {"id": "ca-phe-dl", "name": "Cà phê nhân xô", "cat": "nong-san", "region": "dl", "unit": "đ/kg", "price": null, "asof": null, "source": "Nhập tay"},
+    {"id": "ho-tieu-dl", "name": "Hồ tiêu", "cat": "nong-san", "region": "dl", "unit": "đ/kg", "price": null, "asof": null},
+    {"id": "gao-ct", "name": "Lúa tươi IR50404", "cat": "nong-san", "region": "ct", "unit": "đ/kg", "price": null, "asof": null},
+    {"id": "heo-hoi-hn", "name": "Heo hơi", "cat": "thuc-pham", "region": "hn", "unit": "đ/kg", "price": null, "asof": null},
+    {"id": "heo-hoi-hcm", "name": "Heo hơi", "cat": "thuc-pham", "region": "hcm", "unit": "đ/kg", "price": null, "asof": null},
+    {"id": "trung-ga-hcm", "name": "Trứng gà", "cat": "thuc-pham", "region": "hcm", "unit": "đ/chục", "price": null, "asof": null},
+    {"id": "xang-ron95", "name": "Xăng RON 95-III", "cat": "nhien-lieu", "region": "all", "unit": "đ/lít", "price": null, "asof": null},
+    {"id": "dau-diesel", "name": "Dầu diesel 0,05S", "cat": "nhien-lieu", "region": "all", "unit": "đ/lít", "price": null, "asof": null}
+  ]
+}
